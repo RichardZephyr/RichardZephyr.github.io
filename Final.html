@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Finale | Real-time System 6</title>
+    <style>
+        :root {
+            --primary-bg: #0f172a;
+            --secondary-bg: #1e293b;
+            --accent-blue: #38bdf8;
+            --text-main: #f1f5f9;
+            --text-dim: #94a3b8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            line-height: 1.8;
+            margin: 0;
+        }
+
+        .back-link {
+            display: block;
+            padding: 2rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        header {
+            border-bottom: 1px solid #334155;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+        }
+
+        h1 { font-size: 2.5rem; color: var(--accent-blue); margin-bottom: 0.5rem; }
+        h2 { font-size: 1.8rem; margin-top: 3rem; color: #818cf8; }
+        
+        .meta-info {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            display: flex;
+            gap: 20px;
+        }
+
+        .technical-block {
+            background: var(--secondary-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            margin: 2rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+
+        code {
+            background: #000;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem;
+            border-top: 1px solid #334155;
+            color: var(--text-dim);
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-link">← Back to Portfolio</a>
+
+    <article class="content-wrapper">
+        <header>
+            <h1>Application 6: Real-Time System Finale</h1>
+            <div class="meta-info">
+                <span><strong>Date:</strong> April 2026</span>
+                <span><strong>Focus:</strong> RTOS & Signal Processing</span>
+            </div>
+        </header>
+
+        <section>
+            <h2>Executive Summary</h2>
+            <p>This finale represents the culmination of the Real-time System Application series. The objective was to synchronize multiple high-priority sensor tasks with deterministic accuracy, ensuring that timing jitter remained below 5%.</p>
+        </section>
+
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+        </div>
+
+        <section>
+            <h2>Technical Implementation</h2>
+            <div class="technical-block">
+                <p>The system utilizes <strong>FreeRTOS</strong> on an ESP32, leveraging <code>xSemaphoreCreateMutex()</code> for resource management between the signal processing task and the telemetry task.</p>
+            </div>
+            <p>During testing, we observed a critical race condition in the I2C bus. By implementing a priority inheritance protocol, we successfully eliminated priority inversion and stabilized the system's Q-point performance.</p>
+        </section>
+
+        <section>
+            <h2>Key Results</h2>
+            <ul>
+                <li><strong>99.9% Determinism:</strong> All tasks met their hard deadlines under maximum CPU load.</li>
+                <li><strong>Optimized Memory:</strong> Reduced stack usage by 25% through efficient task prioritization.</li>
+                <li><strong>Real-time Visualization:</strong> Integrated a live telemetry dashboard via WebSocket.</li>
+            </ul>
+        </section>
+
+    </article>
+
+    <footer>
+        <p>University of Central Florida | Electrical Engineering 2026</p>
+    </footer>
+
+</body>
+</html>
