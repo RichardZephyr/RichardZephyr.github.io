@@ -71,11 +71,17 @@
     <section id="overview">
         <div class="container">
             <span class="section-label">// 01 — Mission Profile</span>
-            <h2>Medical Vitals Monitoring</h2>
+            <h2>Overview</h2>
             <p>
-                In clinical environments, a missed heartbeat detection isn't a lag—it's a system failure. This project 
-                simulates a real-time vitals monitor that categorizes heart rates into <strong>Tachycardia</strong>, 
-                <strong>Bradycardia</strong>, or <strong>Normal</strong> states using prioritized task scheduling.
+               This project implements a deterministic EKG monitoring system on an ESP32 using FreeRTOS, replicating the high-reliability 
+                firmware architecture found in clinical electrocardiogram monitors. To ensure patient safety, the system utilizes a 
+                preemptive multitasking kernel where critical tasks—such as ADC signal acquisition and <strong>tachycardia<strong>/<strong>bradycardia<strong> detection are 
+                granted high priority to meet strict real-time deadlines. Concurrency is managed through the use of semaphores and 
+                mutexes, preventing race conditions while coordinating the sensor logic, a hardware-interrupt-driven nurse call button, and 
+                a background web server. Beyond real-time alerting, the firmware maintains data integrity by processing peak, low, and 
+                average BPM metrics over a rolling 5-minute window. This historical log and current vitals are broadcast to a live web 
+                interface, demonstrating a complete end-to-end integration of embedded RTOS principles, hardware simulation via Wokwi, and 
+                IoT telemetry. 
             </p>
             <div class="feature-grid">
                 <div class="feature-card">
@@ -108,6 +114,32 @@
     <section id="specs">
         <div class="container">
             <span class="section-label">// 03 — Technical Specs</span>
+                
+                <div class="tech-stack-grid">
+                <div class="tech-card">
+                    <span class="label">PLATFORM</span>
+                    <div class="value">ESP32</div>
+                </div>
+            
+                <div class="tech-card">
+                    <span class="label">FRAMEWORK</span>
+                    <div class="value">ESP-IDF + FreeRTOS</div>
+                </div>
+            
+                <div class="tech-card">
+                    <span class="label">TOOLCHAIN</span>
+                    <div class="value">
+                        PlatformIO + <a href="YOUR_WOKWI_LINK" target="_blank" class="live-link">Wokwi</a>
+                    </div>
+                </div>
+            
+                <div class="tech-card">
+                    <span class="label">LANGUAGE</span>
+                    <div class="value">C</div>
+                </div>
+            </div>
+            
+            
             <h2>Hardware & Task Map</h2>
             
             <table class="specs-table">
@@ -119,10 +151,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>Vitals Sensor (Pot)</td><td>34</td><td>Simulated ECG Input (ADC)</td></tr>
-                    <tr><td>Alarm LED (Red)</td><td>4</td><td>Alerts for Tachycardia/Bradycardia</td></tr>
-                    <tr><td>Heartbeat LED</td><td>26</td><td>System Determinism Indicator</td></tr>
-                    <tr><td>Reset Button</td><td>23</td><td>Hardware ISR for emergency system reset</td></tr>
+                    <tr><td>Vitals Sensor (Blue LED)</td><td>34</td><td>Simulated ECG Input (ADC)</td></tr>
+                    <tr><td>Alarm LED (Red)</td><td>4</td><td>Alerts for Tachycardia/Bradycardia and Nurse Call</td></tr>
+                    <tr><td>Heartbeat LED (Green)</td><td>26</td><td>System Alive Indicator</td></tr>
+                    <tr><td>Nurse Call Button</td><td>23</td><td>Hardware ISR for emergency system calls</td></tr>
                 </tbody>
             </table>        
         </div>
