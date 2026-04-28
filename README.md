@@ -1,4 +1,5 @@
 richardzephyr.github.io/
+
 Personal GitHub Pages site for Richard Zephyr — showcases the Application 6 project for EEL EEE4775 Real-Time Systems (Spring 2026, UCF).
 
 Live site: http://richardzephyr.github.io/
