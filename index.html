@@ -57,13 +57,12 @@
 
     <section class="hero">
         <div class="container">
-            <h1>Heart Rate Simulator RTOS</h1>
+            <h1>Application 6 RTOS finale Showcase</h1>
             <p style="font-size: 1.2rem; color: var(--color-text-secondary); max-width: 800px; margin: 1rem auto;">
-                A medical-grade proof-of-concept monitoring system. Utilizing FreeRTOS to ensure deterministic 
-                vitals analysis and emergency alerting on ESP32 hardware.
+                   Heart Rate Monitor simulation using ESP32 and FreeRTOS, for patient monitoring and alerting. 
             </p>
             <div style="margin-top: 2rem; font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-text-muted);">
-                <span>UCF SPRING 2026</span> • <span>SIGNALS PROCESSING</span> • <span>HARD REAL-TIME</span>
+                <span>EEE 4475</span> • </span> UCF SPRING 2026</span> • <span>HARD REAL-TIME</span>
             </div>
         </div>
     </section>
@@ -75,7 +74,7 @@
             <p>
                This project implements a deterministic EKG monitoring system on an ESP32 using FreeRTOS, replicating the high-reliability 
                 firmware architecture found in clinical electrocardiogram monitors. To ensure patient safety, the system utilizes a 
-                preemptive multitasking kernel where critical tasks—such as ADC signal acquisition and <strong>tachycardia<strong>/<strong>bradycardia<strong> detection are 
+                preemptive multitasking kernel where critical tasks—such as ADC signal acquisition and tachycardia/bradycardia detection are 
                 granted high priority to meet strict real-time deadlines. Concurrency is managed through the use of semaphores and 
                 mutexes, preventing race conditions while coordinating the sensor logic, a hardware-interrupt-driven nurse call button, and 
                 a background web server. Beyond real-time alerting, the firmware maintains data integrity by processing peak, low, and 
@@ -92,6 +91,25 @@
                     <h3 style="color: var(--color-accent)">Mutex Protection</h3>
                     <p>Heart rate data is a shared resource; Mutexes prevent race conditions between the sensor task and the display task.</p>
                 </div>
+
+                <div class="feature-card">
+                    <h3 style="color: var(--color-accent)">PLATFORM</h3>
+                    <p>ESP32</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3 style="color: var(--color-accent)">FRAMEWORK</h3>
+                    <p>ESP-IDF + FreeRTOS</p>
+                </div>
+                <div class="feature-card">
+                    <h3 style="color: var(--color-accent)">TOOLCHAIN</h3>
+                    <p>PlatformIO + Wokwi</p>
+                </div>
+                <div class="feature-card">
+                    <h3 style="color: var(--color-accent)">LANGUAGE</h3>
+                    <p>C</p>
+                </div>
+                
             </div>
         </div>
     </section>
@@ -114,32 +132,7 @@
     <section id="specs">
         <div class="container">
             <span class="section-label">// 03 — Technical Specs</span>
-                
-                <div class="tech-stack-grid">
-                <div class="tech-card">
-                    <span class="label">PLATFORM</span>
-                    <div class="value">ESP32</div>
-                </div>
-            
-                <div class="tech-card">
-                    <span class="label">FRAMEWORK</span>
-                    <div class="value">ESP-IDF + FreeRTOS</div>
-                </div>
-            
-                <div class="tech-card">
-                    <span class="label">TOOLCHAIN</span>
-                    <div class="value">
-                        PlatformIO + <a href="YOUR_WOKWI_LINK" target="_blank" class="live-link">Wokwi</a>
-                    </div>
-                </div>
-            
-                <div class="tech-card">
-                    <span class="label">LANGUAGE</span>
-                    <div class="value">C</div>
-                </div>
-            </div>
-            
-            
+                                        
             <h2>Hardware & Task Map</h2>
             
             <table class="specs-table">
