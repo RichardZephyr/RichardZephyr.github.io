@@ -3,249 +3,352 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Richard Z. | Real-time EKG Monitor</title>
+    <title>Richard Z. | EKG Vitals Monitor</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* [COPY AND PASTE ALL THE CSS FROM YOUR ORIGINAL TEMPLATE HERE] */
-        /* Note: I've kept the CSS compatible with the original style you provided */
-    </style>
-</head>
-<body>
-    <nav>
-        <a href="#" class="logo">EKG_RTS_V6</a>
-        <ul>
-            <li><a href="#overview">System Design</a></li>
-            <li><a href="#scenario">Clinical Context</a></li>
-            <li><a href="#demo">Live Demo</a></li>
-            <li><a href="#specs">Technical Map</a></li>
-            <li><a href="https://github.com" class="button secondary" style="display: inline-flex; padding: 0.6rem 1rem; font-size: 0.85rem;">Source Code ↗</a></li>
-        </ul>
-    </nav>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <section class="hero">
-        <div class="container">
-            <h1>Predictive EKG Vitals Monitor</h1>
-            <p class="subtitle">
-                A hard real-time embedded system for cardiac telemetry, ensuring deterministic 
-                vitals processing and sub-millisecond emergency response using FreeRTOS and ESP32.
-            </p>
-            
-            <div class="hero-meta">
-                <span><strong>UCF Engineering</strong> · Spring 2026</span>
-                <span><strong>Architecture</strong> · FreeRTOS Dual-Core</span>
-                <span><strong>Priority</strong> · Preemptive Scheduling</span>
-            </div>
-        </div>
-    </section>
+        :root {
+            --color-dark: #0a0e27;
+            --color-darker: #050810;
+            --color-surface: #1a1f3a;
+            --color-border: #2d3454;
+            --color-accent: #00d4ff;
+            --color-accent-alt: #ff6b9d;
+            --color-text: #e8eef7;
+            --color-text-secondary: #a8b2d1;
+            --color-text-muted: #6b7494;
+            --font-mono: 'Space Mono', monospace;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
 
-    <section id="overview">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-label">// 01 — System Architecture</span>
-                <h2>Deterministic Patient Monitoring</h2>
-            </div>
-            
-            <p>
-                In clinical environments, a "laggy" heart rate monitor isn't just an inconvenience—it's a 
-                <strong>system failure</strong>. This project implements a robust EKG telemetry monitor 
-                on the ESP32 platform, utilizing the <strong>FreeRTOS</strong> kernel to guarantee that 
-                high-priority clinical tasks preempt background operations.
-            </p>
+        html {
+            scroll-behavior: smooth;
+        }
 
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <h3>Synchronized Sampling</h3>
-                    <p>
-                        Vitals are captured via a 50Hz periodic task using <strong>Mutexes</strong> to 
-                        ensure data integrity when sharing EKG buffers between the ADC task and the web dashboard.
-                    </p>
-                </div>
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-dark);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-                <div class="feature-card">
-                    <h3>Clinical Alert Logic</h3>
-                    <p>
-                        Hard real-time tasks monitor BPM thresholds. If values exceed 100 (Tachycardia) 
-                        or fall below 60 (Bradycardia), the system triggers an immediate visual and logic-level alarm.
-                    </p>
-                </div>
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--color-border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 3rem;
+        }
 
-                <div class="feature-card">
-                    <h3>Emergency ISRs</h3>
-                    <p>
-                        A "Nurse Call" button is mapped to a hardware interrupt (GPIO 23), providing a 
-                        near-instantaneous response that bypasses the OS scheduler during medical emergencies.
-                    </p>
-                </div>
+        .logo {
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--color-accent);
+            text-decoration: none;
+        }
 
-                <div class="feature-card">
-                    <h3>Inter-Task Queues</h3>
-                    <p>
-                        Standard clinical data is passed to the Web Server task via <strong>FreeRTOS Queues</strong>, 
-                        decoupling the time-critical sampling logic from the slower HTTP networking stack.
-                    </p>
-                </div>
-            </div>
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
 
-            <div class="highlight-box">
-                <strong>The Real-Time Advantage:</strong> By utilizing <code>vTaskDelayUntil()</code> and 
-                preemptive priorities, this system ensures that even if the web server is busy serving a 
-                complex dashboard, the EKG sampling task never misses a single heartbeat.
-            </div>
-        </div>
-    </section>
+        nav a {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
 
-    <section id="scenario">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-label">// 02 — Real-World Application</span>
-                <h2>Scenario: Aerospace Health Monitoring</h2>
-            </div>
+        nav a:hover {
+            color: var(--color-accent);
+        }
 
-            <p>
-                Imagine a long-duration spaceflight mission for <strong>NASA</strong>. The crew requires 
-                autonomous health monitoring systems that can operate reliably without a ground-control link. 
-                My project simulates the <strong>Life Support Control System (LSCS)</strong> for such a mission.
-            </p>
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--color-accent);
+            transition: width 0.3s;
+        }
 
-            <div class="highlight-box">
-                <p>
-                    <strong>Medical Telemetry Implementation:</strong> My system acts as the first line of 
-                    defense in a deep-space habitat. The <strong>Heartbeat Task</strong> verifies the LSCS 
-                    is alive. The <strong>Nurse Call ISR</strong> simulates an astronaut's emergency tether 
-                    trigger. The <strong>Sensor Tasks</strong> simulate oxygen and EKG vitals that must 
-                    be processed with absolute determinism to prevent hypoxic events.
-                </p>
-            </div>
-        </div>
-    </section>
+        nav a:hover::after {
+            width: 100%;
+        }
 
-    <section id="demo">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-label">// 03 — Project Demonstration</span>
-                <h2>System Verification</h2>
-            </div>
+        /* Hero Section */
+        .hero {
+            padding: 8rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05) 0%, rgba(255, 107, 157, 0.05) 100%);
+            position: relative;
+            overflow: hidden;
+        }
 
-            <div class="video-container">
-                <iframe 
-                    src="https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE" 
-                    allowfullscreen="" 
-                    loading="lazy">
-                </iframe>
-            </div>
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
 
-            <p style="font-size: 0.9rem; color: var(--color-text-muted); font-style: italic; margin-top: 1rem;">
-                Demonstrating: ESP32 Hardware, ADC Potentiometer sampling, Tachycardia logic (BPM > 100), 
-                and the Nurse Call interrupt handler.
-            </p>
-        </div>
-    </section>
+        .hero h1 {
+            font-family: var(--font-mono);
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-alt) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
 
-    <section id="specs">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-label">// 04 — Specifications</span>
-                <h2>Task & GPIO Architecture</h2>
-            </div>
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
 
-            <h3>GPIO Mapping</h3>
-            <table class="specs-table">
-                <thead>
-                    <tr>
-                        <th>Component</th>
-                        <th>GPIO Pin</th>
-                        <th>Type</th>
-                        <th>Clinical Role</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Alert LED (Red)</td>
-                        <td>GPIO 2</td>
-                        <td>Output</td>
-                        <td>Active HIGH: Tachycardia/Bradycardia alarm indicator.</td>
-                    </tr>
-                    <tr>
-                        <td>Status LED (Green)</td>
-                        <td>GPIO 4</td>
-                        <td>Output</td>
-                        <td>System Healthy / Within physiological range.</td>
-                    </tr>
-                    <tr>
-                        <td>Heartbeat LED</td>
-                        <td>GPIO 26</td>
-                        <td>Output</td>
-                        <td>5Hz toggle proving OS scheduler health.</td>
-                    </tr>
-                    <tr>
-                        <td>Nurse Call Button</td>
-                        <td>GPIO 23</td>
-                        <td>Input (ISR)</td>
-                        <td>Hardware interrupt for immediate emergency signaling.</td>
-                    </tr>
-                    <tr>
-                        <td>EKG Signal (Pot)</td>
-                        <td>GPIO 34</td>
-                        <td>Input (ADC)</td>
-                        <td>Simulated analog heart signal (0–4095 range).</td>
-                    </tr>
-                </tbody>
-            </table>
+        .hero-meta {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
 
-            <h3 style="margin-top: 3rem;">FreeRTOS Task Schedule</h3>
-            <table class="specs-table">
-                <thead>
-                    <tr>
-                        <th>Task Name</th>
-                        <th>Priority</th>
-                        <th>Period</th>
-                        <th>Type</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Emergency_ISR</td>
-                        <td>HW</td>
-                        <td>Aperiodic</td>
-                        <td><span class="timing-badge hard">HARD</span></td>
-                        <td>GPIO 23. Bypasses scheduler to alert clinical staff.</td>
-                    </tr>
-                    <tr>
-                        <td>Sampling_Task</td>
-                        <td>4</td>
-                        <td>20ms</td>
-                        <td><span class="timing-badge hard">HARD</span></td>
-                        <td>ADC sampling. Failure results in clinical data loss.</td>
-                    </tr>
-                    <tr>
-                        <td>Vitals_Logic</td>
-                        <td>3</td>
-                        <td>100ms</td>
-                        <td><span class="timing-badge hard">HARD</span></td>
-                        <td>Threshold detection for Tachycardia/Bradycardia.</td>
-                    </tr>
-                    <tr>
-                        <td>Web_Server</td>
-                        <td>1</td>
-                        <td>Async</td>
-                        <td><span class="timing-badge soft">SOFT</span></td>
-                        <td>Dashboard delivery. Non-critical timing.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
+        .hero-meta span {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Richard Z. | Electrical Engineering | University of Central Florida</p>
-            <div class="footer-links">
-                <a href="#">LinkedIn</a>
-                <a href="#">GitHub Repository</a>
-                <a href="#">UCF Senior Design</a>
-            </div>
-        </div>
-    </footer>
-</body>
-</html>
+        .hero-meta span strong {
+            color: var(--color-accent);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        .section-header {
+            margin-bottom: 3rem;
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        section h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: var(--color-text);
+        }
+
+        section p {
+            font-size: 1rem;
+            color: var(--color-text);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        /* Video Container */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            margin: 2rem 0;
+            border: 1px solid var(--color-border);
+            background: var(--color-surface);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: var(--color-surface);
+            padding: 2rem;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-accent), var(--color-accent-alt));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--color-accent);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.1);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            color: var(--color-accent);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
+            margin: 0;
+            line-height: 1.7;
+        }
+
+        /* Specs Table */
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .specs-table th {
+            background: var(--color-surface);
+            color: var(--color-accent);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--color-border);
+        }
+
+        .specs-table td {
+            padding: 1.2rem 1rem;
+            border-bottom: 1px solid var(--color-border);
+            font-size: 0.95rem;
+        }
+
+        .specs-table tr:hover {
+            background: rgba(0, 212, 255, 0.03);
+        }
+
+        .specs-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .specs-table td:first-child {
+            color: var(--color-text);
+            font-weight: 500;
+        }
+
+        .specs-table td:nth-child(2) {
+            color: var(--color-accent);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+        }
+
+        /* Tech Tags */
+        .tech-stack {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .tech-tag {
+            background: var(--color-surface);
+            color: var(--color-accent);
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.85
