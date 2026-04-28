@@ -49,7 +49,9 @@
             <li><a href="#overview">Overview</a></li>
             <li><a href="#demo">Demo</a></li>
             <li><a href="#specs">Specs</a></li>
-            <li><a href="https://github.com" class="button" style="color: var(--color-accent)">GitHub ↗</a></li>
+            <li><a href="https://github.com/RichardZephyr/RichardZephyr.github.io" class="button" style="color: var(--color-accent)">GitHub ↗</a></li>
+            <li><a href="https://wokwi.com/projects/462394531809993729" class="button" style="color: var(--color-accent)">WokWi Code ↗</a></li>
+            
         </ul>
     </nav>
 
@@ -99,10 +101,7 @@
                     loading="lazy">
                 </iframe>
             </div>
-            <p style="font-style: italic; color: var(--color-text-secondary);">
-                Note: Observe the serial timestamps. The consistent intervals prove the scheduler is maintaining hard deadlines 
-                even during simulated tachycardia alerts.
-            </p>
+           
         </div>
     </section>
 
@@ -125,32 +124,16 @@
                     <tr><td>Heartbeat LED</td><td>26</td><td>System Determinism Indicator</td></tr>
                     <tr><td>Reset Button</td><td>23</td><td>Hardware ISR for emergency system reset</td></tr>
                 </tbody>
-            </table>
-
-            <h3 style="margin: 2rem 0 1rem;">Task Architecture</h3>
-            <table class="specs-table">
-                <thead>
-                    <tr>
-                        <th>Task Name</th>
-                        <th>Priority</th>
-                        <th>Period</th>
-                        <th>Type</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Vitals_Sampler</td><td>4</td><td>10ms</td><td><span class="timing-badge hard">HARD</span></td></tr>
-                    <tr><td>Analysis_Engine</td><td>3</td><td>50ms</td><td><span class="timing-badge hard">HARD</span></td></tr>
-                    <tr><td>Alert_Manager</td><td>2</td><td>100ms</td><td><span class="timing-badge hard">HARD</span></td></tr>
-                    <tr><td>Telemetry_Log</td><td>1</td><td>500ms</td><td><span class="timing-badge">SOFT</span></td></tr>
-                </tbody>
-            </table>
+            </table>        
         </div>
     </section>
 
     <footer>
         <div class="container">
-            <p>© 2026 Richard — UCF Electrical Engineering</p>
+            <p>© 2026 Richard Zephyr · University of Central Florida</p>
         </div>
+    
+</div>
     </footer>
 </body>
 </html>
